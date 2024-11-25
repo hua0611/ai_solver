@@ -16,25 +16,16 @@
   <!-- 題目上傳區 -->
   <section class="max-w-4xl mx-auto mt-5 p-5 bg-white rounded-lg shadow-md">
     <h2 class="text-xl font-semibold mb-3">題目上傳區</h2>
-    <div class="border-2 border-dashed border-gray-400 rounded-lg py-10 text-center relative">
+    <div class="border-2 border-dashed border-gray-400 rounded-lg py-10 text-center relative overflow-hidden">
       <!-- 提示文字 -->
       <p id="upload-text" class="text-gray-600">📸 點擊上傳或拍照</p>
       <!-- 上傳按鈕 -->
-      <label for="upload-file" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-600">
+      <label for="upload-file" id="upload-button" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-600">
         上傳題目
       </label>
       <input id="upload-file" type="file" class="hidden" accept="image/*" onchange="previewImage(event)">
       <!-- 圖片顯示區 -->
       <img id="image-preview" src="" alt="上傳圖片預覽" class="hidden absolute inset-0 w-full h-full object-contain" />
-    </div>
-  </section>
-
-  <!-- 題目預覽區 -->
-  <section class="max-w-4xl mx-auto mt-5 p-5 bg-white rounded-lg shadow-md">
-    <h2 class="text-xl font-semibold mb-3">題目預覽</h2>
-    <div class="bg-gray-100 border border-gray-300 rounded-lg h-40 flex items-center justify-center">
-      <img id="image-preview-preview" src="" alt="預覽圖片" class="hidden max-h-full max-w-full rounded-lg object-contain" />
-      <p class="text-gray-600" id="no-image-text">預覽區</p>
     </div>
   </section>
 
@@ -58,29 +49,25 @@
       const file = event.target.files[0];
       const uploadPreview = document.getElementById('image-preview');
       const uploadText = document.getElementById('upload-text');
-      const previewDisplay = document.getElementById('image-preview-preview');
-      const noImageText = document.getElementById('no-image-text');
+      const uploadButton = document.getElementById('upload-button');
 
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          // 顯示上傳區的圖片
+          // 顯示上傳的圖片
           uploadPreview.src = e.target.result;
           uploadPreview.classList.remove('hidden'); // 顯示圖片
-          uploadText.classList.add('hidden'); // 隱藏提示文字
 
-          // 顯示題目預覽區的圖片
-          previewDisplay.src = e.target.result;
-          previewDisplay.classList.remove('hidden'); // 顯示預覽圖片
-          noImageText.classList.add('hidden'); // 隱藏文字
+          // 隱藏文字和按鈕
+          uploadText.classList.add('hidden');
+          uploadButton.classList.add('hidden');
         };
         reader.readAsDataURL(file);
       } else {
-        // 隱藏所有圖片並顯示預設文字
+        // 隱藏圖片並顯示文字和按鈕
         uploadPreview.classList.add('hidden');
-        previewDisplay.classList.add('hidden');
         uploadText.classList.remove('hidden');
-        noImageText.classList.remove('hidden');
+        uploadButton.classList.remove('hidden');
       }
     }
   </script>
