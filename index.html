@@ -25,9 +25,17 @@
       <input id="upload-file" type="file" class="hidden" accept="image/*" onchange="previewImage(event)">
       <!-- 提示文字 -->
       <p class="text-sm text-gray-500 mt-3">支援 JPG/PNG 檔案格式</p>
+      <!-- 顯示上傳的圖片 -->
+      <img id="image-preview" src="" alt="上傳圖片預覽" class="hidden absolute inset-0 rounded-lg object-cover" />
+    </div>
+  </section>
 
-      <!-- 圖片顯示區域 -->
-      <img id="image-preview" src="" alt="預覽圖片" class="hidden absolute inset-0 rounded-lg object-cover" />
+  <!-- 題目預覽區 -->
+  <section class="max-w-4xl mx-auto mt-5 p-5 bg-white rounded-lg shadow-md">
+    <h2 class="text-xl font-semibold mb-3">題目預覽</h2>
+    <div class="bg-gray-100 border border-gray-300 rounded-lg h-40 flex items-center justify-center">
+      <img id="image-preview-preview" src="" alt="預覽圖片" class="hidden max-h-full max-w-full rounded-lg" />
+      <p class="text-gray-600" id="no-image-text">預覽區</p>
     </div>
   </section>
 
@@ -49,17 +57,30 @@
   <script>
     function previewImage(event) {
       const file = event.target.files[0];
-      const preview = document.getElementById('image-preview');
+      const uploadPreview = document.getElementById('image-preview');
+      const previewDisplay = document.getElementById('image-preview-preview');
+      const noImageText = document.getElementById('no-image-text');
 
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          preview.src = e.target.result;
-          preview.classList.remove('hidden'); // 顯示圖片
+          // 顯示上傳區的圖片
+          uploadPreview.src = e.target.result;
+          uploadPreview.classList.remove('hidden'); // 顯示圖片
+
+          // 顯示題目預覽區的圖片
+          previewDisplay.src = e.target.result;
+          previewDisplay.classList.remove('hidden'); // 顯示預覽圖片
+
+          // 隱藏預覽區的文字
+          noImageText.classList.add('hidden');
         };
         reader.readAsDataURL(file);
       } else {
-        preview.classList.add('hidden'); // 隱藏圖片
+        // 隱藏所有圖片
+        uploadPreview.classList.add('hidden');
+        previewDisplay.classList.add('hidden');
+        noImageText.classList.remove('hidden'); // 顯示預設文字
       }
     }
   </script>
